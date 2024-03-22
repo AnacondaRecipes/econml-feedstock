@@ -13,7 +13,7 @@ source:
 build:
   number: 0
   script: {{ PYTHON }} -m pip install . -vv
-  skip: true # [py>311]
+  skip: True  # [s390x or py>311]
 
 requirements:
   build:
@@ -33,6 +33,7 @@ requirements:
     - python-graphviz
     - joblib >=0.13.0
     - numpy
+    - numba
     - pandas
     - python
     - scikit-learn
