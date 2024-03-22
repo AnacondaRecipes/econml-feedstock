@@ -12,7 +12,7 @@ source:
 
 build:
   number: 0
-  script: {{ PYTHON }} -m pip install . -vv
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   skip: True  # [s390x or py>311]
 
 requirements:
@@ -28,6 +28,8 @@ requirements:
     - numpy
     - pip
     - python
+    - wheel
+    - setuptools
   run:
     - lightgbm
     - python-graphviz
@@ -42,8 +44,6 @@ requirements:
     - sparse
     - statsmodels >=0.10
 
-    
-
 test:
   imports:
     - econml
@@ -52,12 +52,14 @@ test:
   requires:
     - pip
 
-
 about:
   home: https://github.com/Microsoft/EconML
   summary: This package contains several methods for calculating Conditional Average Treatment Effects
   license: BSD-3-Clause
+  license_family: BSD
   license_file: LICENSE
+  doc_url: https://econml.azurewebsites.net/
+  dev_url: https://github.com/Microsoft/EconML
 
 extra:
   recipe-maintainers:
