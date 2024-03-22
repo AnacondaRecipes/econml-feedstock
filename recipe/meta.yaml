@@ -32,7 +32,7 @@ requirements:
     - lightgbm
     - python-graphviz
     - joblib >=0.13.0
-    - numba !=0.42.1
+    - numba
     - numpy
     - pandas
     - python
@@ -41,6 +41,8 @@ requirements:
     - shap
     - sparse
     - statsmodels >=0.10
+
+    
 
 test:
   imports:
