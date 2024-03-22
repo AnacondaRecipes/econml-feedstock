@@ -32,7 +32,6 @@ requirements:
     - lightgbm
     - python-graphviz
     - joblib >=0.13.0
-    - numba
     - numpy
     - pandas
     - python
