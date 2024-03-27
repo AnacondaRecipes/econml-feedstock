@@ -44,6 +44,12 @@ requirements:
     - sparse
     - statsmodels >=0.10
 
+# ignore test_notebooks.py because it needs notebook data files
+# ignore test_dowhy.py and test_missing_values.py because they need dowhy (not available)
+{% set tests_to_ignore = "--ignore=econml/tests/test_notebooks.py" %}
+{% set tests_to_ignore = tests_to_ignore + " --ignore=econml/tests/test_dowhy.py" %}
+{% set tests_to_ignore = tests_to_ignore + " --ignore=econml/tests/test_missing_values.py" %}
+
 test:
   imports:
     - econml
@@ -56,10 +62,8 @@ test:
     - econml/tests
   commands:
     - pip check
-    # ignore test_dowhy.py and test_missing_values.py because it needs dowhy (not available)
-    # ignore test_notebooks.py because it needs notebook data files
     # skip test_feature_importances for rounding problem
-    - pytest -v -m "not (automl or dowhy or slow or ray or notebook)" econml/tests -k "not test_feature_importances" --ignore=econml/tests/test_notebooks.py --ignore=econml/tests/test_dowhy.py --ignore=econml/tests/test_missing_values.py
+    - pytest -v -m "not (automl or ray)" econml/tests -k "not test_feature_importances" {{ tests_to_ignore }}
 
 about:
   home: https://github.com/Microsoft/EconML
