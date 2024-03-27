@@ -1,0 +1,114 @@
+From 33dd126cf2e1fc8a4dbebfca4b373067002de61c Mon Sep 17 00:00:00 2001
+From: Lorenzo Pirritano <lpirritano@anaconda.com>
+Date: Tue, 26 Mar 2024 16:32:26 -0600
+Subject: [PATCH] do not use econml.tests
+
+---
+ econml/tests/test_automated_ml.py | 2 +-
+ econml/tests/test_dml.py          | 4 ++--
+ econml/tests/test_dmliv.py        | 2 +-
+ econml/tests/test_driv.py         | 2 +-
+ econml/tests/test_drlearner.py    | 2 +-
+ econml/tests/test_dynamic_dml.py  | 2 +-
+ econml/tests/test_random_state.py | 2 +-
+ 7 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/econml/tests/test_automated_ml.py b/econml/tests/test_automated_ml.py
+index 1e30349..a09a5bf 100644
+--- a/econml/tests/test_automated_ml.py
++++ b/econml/tests/test_automated_ml.py
+@@ -21,7 +21,7 @@ from sklearn.ensemble import RandomForestRegressor, \
+     GradientBoostingRegressor, GradientBoostingClassifier
+ import itertools
+ from econml.sklearn_extensions.linear_model import WeightedLasso
+-from econml.tests.test_statsmodels import _summarize
++from tests.test_statsmodels import _summarize
+ import copy
+ import logging
+ from econml.data.dgps import ihdp_surface_B
+diff --git a/econml/tests/test_dml.py b/econml/tests/test_dml.py
+index d7e9828..595c03c 100644
+--- a/econml/tests/test_dml.py
++++ b/econml/tests/test_dml.py
+@@ -18,11 +18,11 @@ from contextlib import ExitStack
+ from sklearn.ensemble import GradientBoostingRegressor, GradientBoostingClassifier
+ import itertools
+ from econml.sklearn_extensions.linear_model import WeightedLasso, StatsModelsRLM, StatsModelsLinearRegression
+-from econml.tests.test_statsmodels import _summarize
++from tests.test_statsmodels import _summarize
+ from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier
+ from sklearn.multioutput import MultiOutputRegressor
+ from econml.grf import MultiOutputGRF
+-from econml.tests.utilities import (GroupingModel, NestedModel)
++from tests.utilities import (GroupingModel, NestedModel)
+ 
+ try:
+     import ray
+diff --git a/econml/tests/test_dmliv.py b/econml/tests/test_dmliv.py
+index e2dc6c2..40854d0 100644
+--- a/econml/tests/test_dmliv.py
++++ b/econml/tests/test_dmliv.py
+@@ -15,7 +15,7 @@ from econml.iv.dml import OrthoIV, DMLIV, NonParamDMLIV
+ from econml.iv.dr._dr import _DummyCATE
+ from econml.sklearn_extensions.linear_model import StatsModelsLinearRegression, WeightedLassoCVWrapper
+ from econml.utilities import shape
+-from econml.tests.utilities import GroupingModel
++from tests.utilities import GroupingModel
+ 
+ 
+ @pytest.mark.cate_api
+diff --git a/econml/tests/test_driv.py b/econml/tests/test_driv.py
+index 9ff237c..73e08a2 100644
+--- a/econml/tests/test_driv.py
++++ b/econml/tests/test_driv.py
+@@ -5,7 +5,7 @@ from econml.iv.dr import (DRIV, LinearDRIV, SparseLinearDRIV, ForestDRIV, Intent
+ from econml.iv.dr._dr import _DummyCATE
+ from econml.sklearn_extensions.linear_model import StatsModelsLinearRegression
+ from econml.utilities import shape
+-from econml.tests.utilities import GroupingModel
++from tests.utilities import GroupingModel
+ 
+ import itertools
+ import numpy as np
+diff --git a/econml/tests/test_drlearner.py b/econml/tests/test_drlearner.py
+index a02aea6..8d825f4 100644
+--- a/econml/tests/test_drlearner.py
++++ b/econml/tests/test_drlearner.py
+@@ -22,7 +22,7 @@ from econml.dr import DRLearner, LinearDRLearner, SparseLinearDRLearner, ForestD
+ from econml.inference import BootstrapInference, StatsModelsInferenceDiscrete
+ from econml.utilities import get_feature_names_or_default, shape, hstack, vstack, reshape, cross_product
+ from econml.sklearn_extensions.linear_model import StatsModelsLinearRegression
+-from econml.tests.utilities import (GroupingModel, NestedModel)
++from tests.utilities import (GroupingModel, NestedModel)
+ 
+ try:
+     import ray
+diff --git a/econml/tests/test_dynamic_dml.py b/econml/tests/test_dynamic_dml.py
+index 118f515..730c887 100644
+--- a/econml/tests/test_dynamic_dml.py
++++ b/econml/tests/test_dynamic_dml.py
+@@ -12,7 +12,7 @@ from econml.panel.dml import DynamicDML
+ from econml.panel.dml._dml import _get_groups_period_filter
+ from econml.inference import BootstrapInference, EmpiricalInferenceResults, NormalInferenceResults
+ from econml.utilities import shape, hstack, vstack, reshape, cross_product
+-from econml.tests.dgp import DynamicPanelDGP
++from tests.dgp import DynamicPanelDGP
+ 
+ 
+ @pytest.mark.cate_api
+diff --git a/econml/tests/test_random_state.py b/econml/tests/test_random_state.py
+index 8fe45eb..312a34a 100644
+--- a/econml/tests/test_random_state.py
++++ b/econml/tests/test_random_state.py
+@@ -17,7 +17,7 @@ from contextlib import ExitStack
+ from sklearn.ensemble import GradientBoostingRegressor, GradientBoostingClassifier
+ import itertools
+ from econml.sklearn_extensions.linear_model import WeightedLasso, StatsModelsRLM, StatsModelsLinearRegression
+-from econml.tests.test_statsmodels import _summarize
++from tests.test_statsmodels import _summarize
+ from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier
+ from econml.iv.dr._dr import _DummyCATE
+ 
+-- 
+2.39.1
+

@@ -7,8 +7,10 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/econml-{{ version }}.tar.gz
-  sha256: de7a168133d6a92fe967fce79172bdc9c298de9b603afa0fb868dc1797323aff
+  url: https://github.com/py-why/EconML/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: bdb43db013b041253872424105262c62a058783b1ed7cbb6a3890061ec4162d5
+  patches:
+    - patches/0001-do-not-use-econml.tests.patch
 
 build:
   number: 0
@@ -18,8 +20,11 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}
+    - patch       # [not win]
+    - m2-patch    # [win]
   host:
-    - cython
+    - cython <3
+    - scipy
     - numpy
     - pip
     - python
@@ -41,10 +46,17 @@ requirements:
 test:
   imports:
     - econml
-  commands:
-    - pip check
   requires:
     - pip
+    - pytest
+    - graphviz
+    - matplotlib-base
+  source_files:
+    - econml/tests
+  commands:
+    - pip check
+    # ignore test_notebooks.py because it needs notebook data files
+    - pytest -v -m "not (automl or dowhy or slow or ray or notebook)" econml/tests --ignore=econml/tests/test_notebooks.py
 
 about:
   home: https://github.com/Microsoft/EconML
