@@ -83,7 +83,7 @@ about:
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE
-  doc_url: https://econml.azurewebsites.net/
+  doc_url: https://github.com/Microsoft/EconML
   dev_url: https://github.com/Microsoft/EconML
 
 extra:
