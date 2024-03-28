@@ -27,7 +27,7 @@ requirements:
     - patch       # [not win]
     - m2-patch    # [win]
   host:
-    - cython <3
+    - cython 0.29.36
     - scipy
     - numpy
     - pip
