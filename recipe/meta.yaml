@@ -17,6 +17,9 @@ build:
   number: 0
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   skip: True  # [s390x or py>311]
+  # Segfault detected on linux-aarch64 during testing. This is enough of a reason to skip this arch for now
+  # Unfortunately this segfault is not documented anywhere
+  skip: True  # [linux and aarch64]
 
 requirements:
   build:
