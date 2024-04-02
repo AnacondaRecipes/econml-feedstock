@@ -20,7 +20,7 @@ build:
   # Segfault detected on some platforms during testing. This is enough of a reason to skip this arch for now
   # Unfortunately this segfault is not documented anywhere
   skip: True  # [linux and aarch64]
-  skip: True  # [osx and 64]
+  skip: True  # [osx]
 
 requirements:
   build:
