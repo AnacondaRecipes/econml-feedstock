@@ -39,6 +39,8 @@ requirements:
     - lightgbm
     - joblib >=0.13.0
     - numpy
+    # numba required by causal_analysis module. See link below:
+    # https://github.com/py-why/EconML/blob/v0.15.0/econml/solutions/causal_analysis/_causal_analysis.py
     - numba
     - pandas >1.0
     - python
