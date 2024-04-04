@@ -81,8 +81,8 @@ about:
     machine learning. This package was designed and built as part of the ALICE project at Microsoft
     Research with the goal to combine state-of-the-art machine learning techniques with econometrics to 
     bring automation to complex causal inference problems.
-  license: BSD-3-Clause
-  license_family: BSD
+  license: MIT AND BSD-3-Clause
+  license_family: Other
   license_file: LICENSE
   doc_url: https://github.com/Microsoft/EconML
   dev_url: https://github.com/Microsoft/EconML
