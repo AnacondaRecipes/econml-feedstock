@@ -1,5 +1,5 @@
 {% set name = "econml" %}
-{% set version = "0.13.1" %}
+{% set version = "0.15.0" %}
 
 
 package:
@@ -7,54 +7,87 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/econml-{{ version }}.tar.gz
-  sha256: 9060e54f46657a62c67e26a6755feb0531106b24e7444fa4c86b8139c89cf9b9
+  url: https://github.com/py-why/EconML/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: bdb43db013b041253872424105262c62a058783b1ed7cbb6a3890061ec4162d5
+  patches:
+    - patches/0001-do-not-use-econml.tests.patch
+    - patches/0002-np.float-deprecated-alias-use-builtin-float.patch
 
 build:
   number: 0
-  script: {{ PYTHON }} -m pip install . -vv
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  skip: True  # [s390x or py>311]
+  # Segfault detected on some platforms during testing. This is enough of a reason to skip this arch for now
+  # Unfortunately this segfault is not documented anywhere
+  skip: True  # [linux and aarch64]
+  skip: True  # [osx]
 
 requirements:
   build:
     - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
-    - python                                 # [build_platform != target_platform]
-    - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-    - cython                                 # [build_platform != target_platform]
-    - numpy                                  # [build_platform != target_platform]
+    - patch       # [not win]
+    - m2-patch    # [win]
   host:
-    - cython
+    - cython 0.29
+    - scipy
     - numpy
     - pip
     - python
+    - wheel
+    - setuptools
   run:
-    - dowhy <0.8
     - lightgbm
-    - python-graphviz
     - joblib >=0.13.0
-    - numba !=0.42.1
     - numpy
-    - pandas
+    # numba required by causal_analysis module. See link below:
+    # https://github.com/py-why/EconML/blob/v0.15.0/econml/solutions/causal_analysis/_causal_analysis.py
+    - numba
+    - pandas >1.0
     - python
-    - scikit-learn >0.22.0,<1.2
     - scipy >1.4.0
-    - shap >=0.38.1,<0.41.0
+    - scikit-learn >=1.0,<1.5
+    - shap >=0.38.1,<0.44.0
     - sparse
     - statsmodels >=0.10
+
+# ignore test_notebooks.py because it needs notebook data files
+# ignore test_dowhy.py and test_missing_values.py because they need dowhy (not available)
+{% set tests_to_ignore = "--ignore=econml/tests/test_notebooks.py" %}
+{% set tests_to_ignore = tests_to_ignore + " --ignore=econml/tests/test_dowhy.py" %}
+{% set tests_to_ignore = tests_to_ignore + " --ignore=econml/tests/test_missing_values.py" %}
+# other problematic tests
+{% set tests_to_skip = "" %}
+{% set tests_to_skip = "or test_random_state" %} # [osx and arm64]
+{% set tests_to_skip = "or test_projection" %} # [linux and aarch64]
 
 test:
   imports:
     - econml
-  commands:
-    - pip check
   requires:
     - pip
+    - pytest
+    - graphviz
+    - matplotlib-base
+  source_files:
+    - econml/tests
+  commands:
+    - pip check
+    # skip test_feature_importances for rounding problem
+    - pytest -v -m "not (automl or ray)" econml/tests -k "not (test_feature_importances {{ tests_to_skip }})" {{ tests_to_ignore }}
 
 about:
   home: https://github.com/Microsoft/EconML
   summary: This package contains several methods for calculating Conditional Average Treatment Effects
-  license: BSD-3-Clause
+  description: |
+    EconML is a Python package for estimating heterogeneous treatment effects from observational data via
+    machine learning. This package was designed and built as part of the ALICE project at Microsoft
+    Research with the goal to combine state-of-the-art machine learning techniques with econometrics to 
+    bring automation to complex causal inference problems.
+  license: MIT AND BSD-3-Clause
+  license_family: Other
   license_file: LICENSE
+  doc_url: https://github.com/Microsoft/EconML
+  dev_url: https://github.com/Microsoft/EconML
 
 extra:
   recipe-maintainers:

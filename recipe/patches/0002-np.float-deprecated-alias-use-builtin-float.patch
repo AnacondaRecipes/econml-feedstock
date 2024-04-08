@@ -1,0 +1,25 @@
+From 9d06ee4cdc8b0507b0fe68664e4e7077ecc0e0d6 Mon Sep 17 00:00:00 2001
+From: Lorenzo Pirritano <lpirritano@anaconda.com>
+Date: Wed, 27 Mar 2024 06:57:44 -0600
+Subject: [PATCH] np.float deprecated alias use builtin float
+
+---
+ econml/tests/test_dml.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/econml/tests/test_dml.py b/econml/tests/test_dml.py
+index 595c03c..05b3e7c 100644
+--- a/econml/tests/test_dml.py
++++ b/econml/tests/test_dml.py
+@@ -787,7 +787,7 @@ class TestDML(unittest.TestCase):
+             np.testing.assert_array_less(mean_truth - .03, inf_sum.ci_upper)
+             tables = est.summary().tables
+             for t in range(4):
+-                np.testing.assert_allclose(np.array(tables[t].data[1:])[:, 1].astype(np.float),
++                np.testing.assert_allclose(np.array(tables[t].data[1:])[:, 1].astype(float),
+                                            mean_truth, rtol=0, atol=.06)
+ 
+             if it == 0:
+-- 
+2.39.1
+
