@@ -14,12 +14,9 @@ source:
     - patches/0002-np.float-deprecated-alias-use-builtin-float.patch
 
 build:
-  number: 0
+  number: 1
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   skip: True  # [s390x or py>311]
-  # Segfault detected on some platforms during testing. This is enough of a reason to skip this arch for now
-  # Unfortunately this segfault is not documented anywhere
-  skip: True  # [linux and aarch64]
   skip: True  # [osx]
 
 requirements:
